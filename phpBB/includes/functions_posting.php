@@ -120,6 +120,15 @@ function generate_smilies($mode, $forum_id)
 
 		foreach ($smilies as $row)
 		{
+			/**
+			* This event is called before the smilies are populated
+			*
+			* @event core.generate_smilies_before
+			* @var  string  root_path     Domain for smilies
+			* @since 3.1.0-a1
+			*/
+			$vars = array('root_path');
+			extract($phpbb_dispatcher->trigger_event('core.generate_smilies_before', compact($vars)));
 			$template->assign_block_vars('smiley', array(
 				'SMILEY_CODE'	=> $row['code'],
 				'A_SMILEY_CODE'	=> addslashes($row['code']),
